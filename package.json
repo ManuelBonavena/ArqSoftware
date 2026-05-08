@@ -1,0 +1,21 @@
+{
+  "name": "backend",
+  "version": "2.0.0",
+  "description": "Biblioteca Ducky - Proyecto Final - Backend MVC con Node.js + Express + PostgreSQL",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["mvc", "express", "postgresql", "biblioteca"],
+  "author": "Manuel Bonavena (625440)",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.20.0"
+  }
+}
