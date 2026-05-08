@@ -1,6 +1,6 @@
 # Biblioteca Ducky
 
-Proyecto final de Arquitectura de Software — **Manuel Bonavena (625440)**.
+Proyecto final de Arquitectura de Software — 
 
 Aplicación web para gestionar el catálogo de libros de una biblioteca universitaria. Permite a usuarios autenticados listar, ver el detalle, dar de alta, editar y eliminar libros.
 
