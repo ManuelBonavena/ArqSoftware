@@ -1,0 +1,178 @@
+<!--
+/******************************************************************/
+/* Program Assignment: Biblioteca Ducky - Proyecto Final          */
+/* Name: Manuel Bonavena (625440)                                 */
+/* Date: 2026-05-07                                               */
+/* Description: Catalogo de Libros screen (E2). Renders books     */
+/*              with stats summary, state filter chips, search    */
+/*              by selectable field, page size selector, and      */
+/*              numeric pagination. The delete confirmation       */
+/*              modal lives here as overlay (state E5).           */
+/******************************************************************/
+-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Biblioteca Ducky · Catálogo</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="app">
+
+    <!-- Sidebar with logo and vertical text -->
+    <aside class="sidebar">
+        <svg class="sidebar-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+        </svg>
+        <div class="sidebar-vertical-text">Biblioteca Ducky</div>
+    </aside>
+
+    <div class="main-column">
+
+        <!-- Topbar (only brand and exit) -->
+        <div class="topbar">
+            <div class="topbar-brand">Biblioteca Ducky</div>
+            <div class="topbar-close" onclick="CatalogoController.logout()" title="Salir">×</div>
+        </div>
+
+        <div class="content">
+
+            <!-- Page header -->
+            <div class="content-header">
+                <div class="content-header-text">
+                    <h1>Libros</h1>
+                    <p>Pestaña para administrar los libros que se encuentran en el sistema</p>
+                </div>
+                <button class="btn btn-primary" onclick="CatalogoController.ir_a_nuevo()">
+                    Nuevo Libro +
+                </button>
+            </div>
+
+            <!-- Stats summary -->
+            <div class="stats-bar">
+                <div class="stat-card stat-card-total">
+                    <div class="stat-label">Total</div>
+                    <div class="stat-value" id="stat-total">0</div>
+                </div>
+                <div class="stat-card stat-card-disponible">
+                    <div class="stat-label">Disponibles</div>
+                    <div class="stat-value" id="stat-disponible">0</div>
+                </div>
+                <div class="stat-card stat-card-prestado">
+                    <div class="stat-label">Prestados</div>
+                    <div class="stat-value" id="stat-prestado">0</div>
+                </div>
+                <div class="stat-card stat-card-mantenimiento">
+                    <div class="stat-label">Mantenimiento</div>
+                    <div class="stat-value" id="stat-mantenimiento">0</div>
+                </div>
+            </div>
+
+            <!-- Filter bar: state chips + search + field selector -->
+            <div class="filter-bar">
+
+                <div class="filter-chips" id="filter-chips">
+                    <button class="filter-chip chip-todos active"        data-state="todos"          onclick="CatalogoController.cambiar_filtro_estado('todos')">Todos</button>
+                    <button class="filter-chip chip-disponible"          data-state="disponible"     onclick="CatalogoController.cambiar_filtro_estado('disponible')">Disponible</button>
+                    <button class="filter-chip chip-prestado"            data-state="prestado"       onclick="CatalogoController.cambiar_filtro_estado('prestado')">Prestado</button>
+                    <button class="filter-chip chip-mantenimiento"       data-state="mantenimiento"  onclick="CatalogoController.cambiar_filtro_estado('mantenimiento')">Mantenimiento</button>
+                    <button class="filter-chip chip-perdido"             data-state="perdido"        onclick="CatalogoController.cambiar_filtro_estado('perdido')">Perdido</button>
+                </div>
+
+                <div class="filter-divider"></div>
+
+                <select id="filter-field" class="filter-select" onchange="CatalogoController.filtrar()">
+                    <option value="titulo">Título</option>
+                    <option value="autor">Autor</option>
+                    <option value="isbn">ISBN</option>
+                </select>
+
+                <div class="filter-search-wrapper">
+                    <svg class="filter-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="m21 21-4.3-4.3"></path>
+                    </svg>
+                    <input id="buscador"
+                           class="filter-search-input"
+                           type="text"
+                           placeholder="Buscar por título, autor o ISBN..."
+                           oninput="CatalogoController.filtrar()">
+                </div>
+
+            </div>
+
+            <!-- Table -->
+            <div class="table-card">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Autor</th>
+                            <th>ISBN</th>
+                            <th>Categoría</th>
+                            <th>Copias</th>
+                            <th>Estado</th>
+                            <th class="text-right">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla"></tbody>
+                </table>
+            </div>
+
+            <!-- Pagination bar -->
+            <div class="pagination-bar">
+                <div class="pagination-info" id="pagination-info">Cargando...</div>
+
+                <div class="pagination-controls" id="pagination-controls"></div>
+
+                <div class="page-size-control">
+                    <span>Por página:</span>
+                    <select id="page-size-select"
+                            class="page-size-select"
+                            onchange="CatalogoController.cambiar_page_size()">
+                        <option value="10">10</option>
+                        <option value="20" selected>20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Delete confirmation modal (state E5, transitions T14 / T15) -->
+<div id="delete-modal" class="modal-overlay">
+    <div class="modal">
+        <h3>Confirmar eliminación</h3>
+        <p id="delete-modal-message" class="modal-message">¿Estás seguro?</p>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="CatalogoController.cancelar_eliminacion()">
+                Cancelar
+            </button>
+            <button class="btn btn-danger" onclick="CatalogoController.confirmar_eliminacion()">
+                Eliminar
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Utilities -->
+<script src="js/utils/api.js"></script>
+<script src="js/utils/session.js"></script>
+<script src="js/utils/validation.js"></script>
+
+<!-- MVC layer -->
+<script src="js/models/LibroModel.js"></script>
+<script src="js/views/CatalogoView.js"></script>
+<script src="js/controllers/CatalogoController.js"></script>
+
+<!-- Bootstrap -->
+<script>CatalogoController.init();</script>
+
+</body>
+</html>

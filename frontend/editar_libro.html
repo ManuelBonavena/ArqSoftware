@@ -1,0 +1,155 @@
+<!--
+/******************************************************************/
+/* Program Assignment: Biblioteca Ducky - Proyecto Final          */
+/* Name: Manuel Bonavena (625440)                                 */
+/* Date: 2026-05-07                                               */
+/* Description: Editar Libro screen (E6). Form pre-loaded with    */
+/*              the libro data identified by the ?isbn=...       */
+/*              query parameter. ISBN field is disabled per spec. */
+/*              Save triggers T19 (success) or T17 (validation). */
+/*              Volver triggers T18.                              */
+/******************************************************************/
+-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Biblioteca Ducky · Editar libro</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="app">
+
+    <aside class="sidebar"></aside>
+
+    <div class="main-column">
+
+        <div class="topbar">
+            <div class="topbar-brand">Biblioteca Ducky</div>
+            <div class="topbar-close" onclick="EditarLibroController.volver()" title="Volver">×</div>
+        </div>
+
+        <div class="content">
+
+            <div class="content-header">
+                <div class="content-header-text">
+                    <h1>Edición de Libro</h1>
+                    <p>Modifica la información del libro y guarda los cambios</p>
+                </div>
+                <button class="btn btn-secondary" onclick="EditarLibroController.volver()">
+                    ← Volver
+                </button>
+            </div>
+
+            <!-- Loading placeholder -->
+            <div id="loading-state" class="card text-muted" style="text-align:center; padding:48px;">
+                Cargando información del libro...
+            </div>
+
+            <!-- Edit form -->
+            <div id="edit-form" class="card hidden">
+
+                <div id="form-error" class="error-message"></div>
+
+                <div class="form-grid">
+
+                    <div class="form-row">
+                        <label for="titulo">Título del libro</label>
+                        <input id="titulo" type="text">
+                    </div>
+
+                    <div class="form-row">
+                        <label for="autor">Autor</label>
+                        <input id="autor" type="text">
+                    </div>
+
+                    <div class="form-row">
+                        <label for="editorial">Editorial</label>
+                        <input id="editorial" type="text">
+                    </div>
+
+                    <div class="form-row">
+                        <label for="isbn">ISBN (no editable)</label>
+                        <input id="isbn" type="text" disabled>
+                    </div>
+
+                    <div class="form-row form-row-full">
+                        <label for="sinopsis">Sinopsis</label>
+                        <textarea id="sinopsis"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="anio_publicacion">Año de publicación</label>
+                        <input id="anio_publicacion" type="number" min="0" max="2100">
+                    </div>
+
+                    <div class="form-row">
+                        <label for="num_paginas">Número de páginas</label>
+                        <input id="num_paginas" type="number" min="1">
+                    </div>
+
+                    <div class="form-row">
+                        <label for="precio">Precio</label>
+                        <input id="precio" type="number" min="0" step="0.01">
+                    </div>
+
+                    <div class="form-row form-row-full">
+                        <label for="ubicacion">Ubicación en biblioteca</label>
+                        <input id="ubicacion" type="text">
+                    </div>
+
+                    <div class="form-row">
+                        <label for="num_copias">Número de copias</label>
+                        <input id="num_copias" type="number" min="1">
+                    </div>
+
+                    <div class="form-row">
+                        <label for="categoria">Categoría</label>
+                        <input id="categoria" type="text">
+                    </div>
+
+                    <div class="form-row form-row-full">
+                        <label for="estado">Estado</label>
+                        <select id="estado">
+                            <option value="disponible">Disponible</option>
+                            <option value="prestado">Prestado</option>
+                            <option value="mantenimiento">Mantenimiento</option>
+                            <option value="perdido">Perdido</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+                    <button id="btn-guardar"
+                            class="btn btn-primary"
+                            onclick="EditarLibroController.guardar()">
+                        Guardar cambios
+                    </button>
+                    <button class="btn btn-secondary" onclick="EditarLibroController.volver()">
+                        Cancelar
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Utilities -->
+<script src="js/utils/api.js"></script>
+<script src="js/utils/session.js"></script>
+<script src="js/utils/validation.js"></script>
+
+<!-- MVC layer -->
+<script src="js/models/LibroModel.js"></script>
+<script src="js/views/EditarLibroView.js"></script>
+<script src="js/controllers/EditarLibroController.js"></script>
+
+<!-- Bootstrap -->
+<script>EditarLibroController.init();</script>
+
+</body>
+</html>

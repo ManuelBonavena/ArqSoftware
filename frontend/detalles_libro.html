@@ -1,0 +1,118 @@
+<!--
+/******************************************************************/
+/* Program Assignment: Biblioteca Ducky - Proyecto Final          */
+/* Name: Manuel Bonavena (625440)                                 */
+/* Date: 2026-05-07                                               */
+/* Description: Detalles del Libro screen (E4). Read-only         */
+/*              presentation of a single libro. Reached via       */
+/*              transition T7 from the catalog. The Volver        */
+/*              button triggers T21.                              */
+/******************************************************************/
+-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Biblioteca Ducky · Detalles del libro</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="app">
+
+    <aside class="sidebar"></aside>
+
+    <div class="main-column">
+
+        <div class="topbar">
+            <div class="topbar-brand">Biblioteca Ducky</div>
+            <div class="topbar-close" onclick="DetallesLibroController.volver()" title="Volver">×</div>
+        </div>
+
+        <div class="content">
+
+            <div class="content-header">
+                <div class="content-header-text">
+                    <h1>Detalles del libro</h1>
+                    <p>Información completa del libro seleccionado</p>
+                </div>
+                <button class="btn btn-secondary" onclick="DetallesLibroController.volver()">
+                    ← Volver
+                </button>
+            </div>
+
+            <!-- Loaded content -->
+            <div id="detalle-content" class="card hidden">
+
+                <h2 id="detalle-titulo" class="mb-0"></h2>
+                <p>
+                    <strong id="detalle-autor"></strong>
+                    · <span id="detalle-anio"></span>
+                    · <span id="detalle-editorial"></span>
+                </p>
+
+                <div class="mt-12">
+                    <span id="detalle-categoria" class="badge"></span>
+                    &nbsp;
+                    <span id="detalle-estado" class="badge"></span>
+                </div>
+
+                <hr class="mt-24" style="border:none; border-top:1px solid #d8d8d8;">
+
+                <h3 class="mt-12">Sinopsis</h3>
+                <p id="detalle-sinopsis"></p>
+
+                <h3 class="mt-24">Información adicional</h3>
+                <div class="detail-grid">
+                    <div class="detail-row">
+                        <span class="detail-label">ISBN</span>
+                        <span class="detail-value" id="detalle-isbn"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Número de páginas</span>
+                        <span class="detail-value" id="detalle-paginas"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Precio</span>
+                        <span class="detail-value" id="detalle-precio"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Número de copias</span>
+                        <span class="detail-value" id="detalle-copias"></span>
+                    </div>
+                    <div class="detail-row detail-row-full">
+                        <span class="detail-label">Ubicación en biblioteca</span>
+                        <span class="detail-value" id="detalle-ubicacion"></span>
+                    </div>
+                    <div class="detail-row detail-row-full">
+                        <span class="detail-label">Fecha de registro</span>
+                        <span class="detail-value" id="detalle-fecha"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Empty / error state -->
+            <div id="detalle-message" class="card text-muted" style="text-align:center; padding:48px;">
+                Cargando información del libro...
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Utilities -->
+<script src="js/utils/api.js"></script>
+<script src="js/utils/session.js"></script>
+<script src="js/utils/validation.js"></script>
+
+<!-- MVC layer -->
+<script src="js/models/LibroModel.js"></script>
+<script src="js/views/DetallesLibroView.js"></script>
+<script src="js/controllers/DetallesLibroController.js"></script>
+
+<!-- Bootstrap -->
+<script>DetallesLibroController.init();</script>
+
+</body>
+</html>

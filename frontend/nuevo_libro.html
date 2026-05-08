@@ -1,0 +1,147 @@
+<!--
+/******************************************************************/
+/* Program Assignment: Biblioteca Ducky - Proyecto Final          */
+/* Name: Manuel Bonavena (625440)                                 */
+/* Date: 2026-05-07                                               */
+/* Description: Nuevo Libro screen (E3). Form with the 12 libro   */
+/*              fields. The user fills them and clicks "Guardar  */
+/*              libro" (T11) or "Volver" to cancel (T12).         */
+/******************************************************************/
+-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Biblioteca Ducky · Nuevo Libro</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="app">
+
+    <aside class="sidebar"></aside>
+
+    <div class="main-column">
+
+        <div class="topbar">
+            <div class="topbar-brand">Biblioteca Ducky</div>
+            <div class="topbar-close" onclick="NuevoLibroController.volver()" title="Volver">×</div>
+        </div>
+
+        <div class="content">
+
+            <div class="content-header">
+                <div class="content-header-text">
+                    <h1>Nuevo Libro</h1>
+                    <p>Captura los datos del libro a registrar</p>
+                </div>
+                <button class="btn btn-secondary" onclick="NuevoLibroController.volver()">
+                    ← Volver
+                </button>
+            </div>
+
+            <div class="card">
+
+                <div id="form-error" class="error-message"></div>
+
+                <div class="form-grid">
+
+                    <div class="form-row">
+                        <label for="titulo">Título del libro</label>
+                        <input id="titulo" type="text" placeholder="Ingresa la información">
+                    </div>
+
+                    <div class="form-row">
+                        <label for="autor">Autor</label>
+                        <input id="autor" type="text" placeholder="Nombre del autor">
+                    </div>
+
+                    <div class="form-row">
+                        <label for="editorial">Editorial</label>
+                        <input id="editorial" type="text" placeholder="Ingresa la información">
+                    </div>
+
+                    <div class="form-row">
+                        <label for="isbn">ISBN</label>
+                        <input id="isbn" type="text" placeholder="978-X-XX-XXXXXX-X">
+                    </div>
+
+                    <div class="form-row form-row-full">
+                        <label for="sinopsis">Sinopsis</label>
+                        <textarea id="sinopsis" placeholder="Ingresa la información"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="anio_publicacion">Año de publicación</label>
+                        <input id="anio_publicacion" type="number" min="0" max="2100" placeholder="2024">
+                    </div>
+
+                    <div class="form-row">
+                        <label for="num_paginas">Número de páginas</label>
+                        <input id="num_paginas" type="number" min="1" placeholder="320">
+                    </div>
+
+                    <div class="form-row">
+                        <label for="precio">Precio</label>
+                        <input id="precio" type="number" min="0" step="0.01" placeholder="350.00">
+                    </div>
+
+                    <div class="form-row form-row-full">
+                        <label for="ubicacion">Ubicación en biblioteca</label>
+                        <input id="ubicacion" type="text" placeholder="Pasillo X · Estante Y · Nivel Z">
+                    </div>
+
+                    <div class="form-row">
+                        <label for="num_copias">Número de copias</label>
+                        <input id="num_copias" type="number" min="1" placeholder="3">
+                    </div>
+
+                    <div class="form-row">
+                        <label for="categoria">Categoría</label>
+                        <input id="categoria" type="text" placeholder="Ficción, Tecnología, Ciencia...">
+                    </div>
+
+                    <div class="form-row form-row-full">
+                        <label for="estado">Estado</label>
+                        <select id="estado">
+                            <option value="disponible">Disponible</option>
+                            <option value="prestado">Prestado</option>
+                            <option value="mantenimiento">Mantenimiento</option>
+                            <option value="perdido">Perdido</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+                    <button id="btn-guardar"
+                            class="btn btn-primary"
+                            onclick="NuevoLibroController.guardar()">
+                        Guardar libro
+                    </button>
+                    <button class="btn btn-secondary" onclick="NuevoLibroController.volver()">
+                        Cancelar
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Utilities -->
+<script src="js/utils/api.js"></script>
+<script src="js/utils/session.js"></script>
+<script src="js/utils/validation.js"></script>
+
+<!-- MVC layer -->
+<script src="js/models/LibroModel.js"></script>
+<script src="js/views/NuevoLibroView.js"></script>
+<script src="js/controllers/NuevoLibroController.js"></script>
+
+<!-- Bootstrap -->
+<script>NuevoLibroController.init();</script>
+
+</body>
+</html>

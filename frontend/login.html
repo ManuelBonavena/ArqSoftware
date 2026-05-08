@@ -1,0 +1,75 @@
+<!--
+/******************************************************************/
+/* Program Assignment: Biblioteca Ducky - Proyecto Final          */
+/* Name: Manuel Bonavena (625440)                                 */
+/* Date: 2026-05-07                                               */
+/* Description: Authentication screen (E1). Renders the login    */
+/*              form, delegates submission to AuthController via  */
+/*              the Iniciar sesion button or the Enter key.       */
+/******************************************************************/
+-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Biblioteca Ducky · Iniciar sesión</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- Topbar with brand and exit button (transition T22) -->
+<div class="topbar">
+    <div class="topbar-brand">Biblioteca Universidad Ducky</div>
+    <div class="topbar-close" onclick="AuthController.salir()" title="Salir">×</div>
+</div>
+
+<!-- Centered login card -->
+<div class="card card-narrow">
+
+    <h2 class="mb-0">Iniciar sesión</h2>
+    <p>Acceso al catálogo de la biblioteca</p>
+
+    <div class="form-row">
+        <label for="usuario">Usuario (Matrícula/Nómina)</label>
+        <input id="usuario" type="text" placeholder="Ingresa tu usuario" autocomplete="username">
+    </div>
+
+    <div class="form-row">
+        <label for="password">Contraseña</label>
+        <input id="password" type="password" placeholder="Ingresa tu contraseña" autocomplete="current-password">
+    </div>
+
+    <div id="error" class="error-message"></div>
+
+    <div class="form-actions mt-12">
+        <button class="btn btn-primary btn-block" onclick="AuthController.login()">
+            Iniciar sesión
+        </button>
+    </div>
+
+</div>
+
+<!-- Utilities (loaded first) -->
+<script src="js/utils/api.js"></script>
+<script src="js/utils/session.js"></script>
+<script src="js/utils/validation.js"></script>
+
+<!-- MVC layer -->
+<script src="js/models/AuthModel.js"></script>
+<script src="js/views/AuthView.js"></script>
+<script src="js/controllers/AuthController.js"></script>
+
+<!-- Bind Enter key to submit (UX nicety) -->
+<script>
+    document.getElementById('password').addEventListener('keydown', function(key_event)
+    {
+        if (key_event.key === 'Enter') AuthController.login();
+    });
+    document.getElementById('usuario').addEventListener('keydown', function(key_event)
+    {
+        if (key_event.key === 'Enter') AuthController.login();
+    });
+</script>
+
+</body>
+</html>
